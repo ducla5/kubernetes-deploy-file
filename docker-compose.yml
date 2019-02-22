@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=ducla
+      - MARIADB_DATABASE=laravel
+      - MARIADB_PASSWORD=Abc123@.
+    ports:
+      - 3306:3306
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_PASSWORD=Abc123@.
+      - RABBITMQ_USERNAME=ducla
+  laravel:
+    tty: true
+    image: 'anhduc720/laravel:latest'
+    labels:
+      kompose.service.type: nodeport
+    environment:
+      - DB_HOST=mariadb
+      - DB_USERNAME=ducla
+      - DB_DATABASE=laravel
+      - DB_PASSWORD=Abc123@.
+      - QUEUE_CONNECTION=rabbitmq
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_LOGIN=ducla
+      - RABBITMQ_PASSWORD=Abc123@.
+    depends_on:
+      - mariadb
+    ports:
+      - 3000:3000
+

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: test-minikube.loc
+    http:
+      paths:
+      - path: /adminer
+        backend:
+          serviceName: adminer
+          servicePort: 8080
+      - path: /laravel
+        backend:
+          serviceName: laravel
+          servicePort: 3000

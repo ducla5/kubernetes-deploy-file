@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: nodeport
+    kompose.version: 1.7.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: laravel
+  name: laravel
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: laravel
+    spec:
+      containers:
+      - env:
+        - name: APP_KEY
+          value: base64:LmQAqTGy59tBsVWjv3iO9tYlIeHR1n3LbT1Ba1Dn2js=
+        - name: DB_DATABASE
+          value: laravel
+        - name: DB_HOST
+          value: mariadb
+        - name: DB_PASSWORD
+          value: Abc123@.
+        - name: DB_USERNAME
+          value: ducla
+        - name: QUEUE_CONNECTION
+          value: rabbitmq
+        - name: RABBITMQ_HOST
+          value: rabbitmq
+        - name: RABBITMQ_LOGIN
+          value: ducla
+        - name: RABBITMQ_PASSWORD
+          value: Abc123@.
+        image: anhduc720/laravel:latest
+        name: laravel
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 250Mi
+        tty: true
+      restartPolicy: Always
+status: {}
